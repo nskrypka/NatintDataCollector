@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by skn on 09/10/2015.
  */
-public class ApiData implements IData {
+public class ApiData extends Data {
 
     @SerializedName("postId")
     Integer postId;

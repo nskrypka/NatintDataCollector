@@ -1,7 +1,7 @@
 package com.natint.site;
 
 import com.natint.data.BaseData;
-import com.natint.data.IData;
+import com.natint.data.Data;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebElement;
 
@@ -24,9 +24,9 @@ public class Amazon extends Site {
     private static final String NEXT_PAGE_LINK = "//a[@id='pagnNextLink']";
 
     @Override
-    protected List<IData> getResults(int resultsAmount) {
+    protected List<Data> getResults(int resultsAmount) {
         logger.info("Method getResults started...");
-        List<IData> result = new ArrayList<>();
+        List<Data> result = new ArrayList<>();
 
         while (resultsAmount > 0) {
             List<WebElement> linkElements = getDriver().findElementsByXPath(PRODUCT_LINK_TEMPLATE);
@@ -50,7 +50,7 @@ public class Amazon extends Site {
         }
     }
 
-    private void extractResult(int amount, List<IData> result, List<WebElement> linkElements, List<WebElement> priceElements) {
+    private void extractResult(int amount, List<Data> result, List<WebElement> linkElements, List<WebElement> priceElements) {
         for (int i = 0; i < amount; i++) {
             WebElement productLinkElement = linkElements.get(i);
             WebElement productPriceElement = priceElements.get(i);

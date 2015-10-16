@@ -1,6 +1,6 @@
 package com.natint.email;
 
-import com.natint.data.IData;
+import com.natint.data.Data;
 
 import javax.mail.*;
 import javax.mail.internet.MimeBodyPart;
@@ -18,7 +18,7 @@ public class JavaxMail extends Email {
     private static final String EMAIL_PASSWORD = System.getProperty("NATINT_PASSWORD_META_UA");
 
     @Override
-    public List<IData> collectData() {
+    public List<Data> collectData() {
         try {
             Folder folder = establishConnection();
             Message[] messages = folder.getMessages();

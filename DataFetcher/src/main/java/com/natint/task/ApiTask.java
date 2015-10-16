@@ -2,14 +2,13 @@ package com.natint.task;
 
 import com.natint.api.Api;
 import com.natint.api.JsonPlaceholderApi;
-import org.springframework.context.annotation.Scope;
+import com.natint.exec.Status;
 
 import java.util.Map;
 
 /**
  * Created by skn on 09/10/2015.
  */
-@Scope("prototype")
 public class ApiTask extends Task {
 
     public ApiTask() {
@@ -27,6 +26,7 @@ public class ApiTask extends Task {
 
     @Override
     public void init(Map<String, String> params) {
+        taskStatus.setStatus(getId(), Status.INITIALIZED);
         this.params = params;
         this.endpoint = getSite();
     }

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jayway.restassured.response.Response;
 import com.natint.data.ApiData;
-import com.natint.data.IData;
+import com.natint.data.Data;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -26,11 +26,11 @@ public class JsonPlaceholderApi extends Api {
     }
 
     @Override
-    public List<IData> collectData() {
+    public List<Data> collectData() {
         Integer postId = Integer.parseInt(params.get("postId"));
         Response response = when().get(commentsLink, postId).then().statusCode(200).extract().response();
-        List<IData> resultFromJson = new Gson().fromJson(response.asString(), new TypeToken<List<ApiData>>(){}.getType());
-        for (IData apiData : resultFromJson){
+        List<Data> resultFromJson = new Gson().fromJson(response.asString(), new TypeToken<List<ApiData>>(){}.getType());
+        for (Data apiData : resultFromJson){
             logger.info("ApiData : " + apiData.toString());
         }
         return resultFromJson;

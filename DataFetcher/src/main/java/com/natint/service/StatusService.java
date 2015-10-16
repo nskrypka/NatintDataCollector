@@ -1,9 +1,9 @@
 package com.natint.service;
 
-import com.natint.data.IData;
-import com.natint.exec.ResultController;
+import com.natint.data.Data;
+import com.natint.exec.TaskResult;
 import com.natint.exec.Status;
-import com.natint.exec.StatusController;
+import com.natint.exec.TaskStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -14,15 +14,15 @@ import java.util.List;
 public class StatusService  {
 
     @Autowired
-    StatusController statusController;
+    TaskStatus taskStatus;
     @Autowired
-    ResultController resultController;
+    TaskResult taskResult;
 
-    public List<IData> getResult (Integer id) {
-        return resultController.getResult(id);
+    public List<Data> getResult (Integer id) {
+        return taskResult.getResult(id);
     }
 
     public Status getStatus(Integer id) {
-        return statusController.getStatus(id);
+        return taskStatus.getStatus(id);
     }
 }

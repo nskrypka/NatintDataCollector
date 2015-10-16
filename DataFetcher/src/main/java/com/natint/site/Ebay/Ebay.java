@@ -3,7 +3,7 @@ package com.natint.site.Ebay;
 
 import com.natint.site.Site;
 import com.natint.data.BaseData;
-import com.natint.data.IData;
+import com.natint.data.Data;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import ru.yandex.qatools.htmlelements.loader.decorator.HtmlElementDecorator;
@@ -22,14 +22,14 @@ public class Ebay extends Site {
     private SearchBlock searchBlock;
 
     @Override
-    protected List<IData> getResults(int resultsAmount)
+    protected List<Data> getResults(int resultsAmount)
     {
         SearchResults searchResults = new SearchResults(getDriver());
         List<SearchResultElement> results = searchResults.getSearchItems();
         if (resultsAmount < results.size())
             results = results.subList(0, resultsAmount);
 
-        LinkedList<IData> list = new LinkedList<>();
+        LinkedList<Data> list = new LinkedList<>();
         for (SearchResultElement element : results)
             list.add(new BaseData(element.getLink().getReference(), element.getPrice().getText()));
 

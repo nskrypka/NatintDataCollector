@@ -1,7 +1,5 @@
 package com.natint.task;
 
-import com.natint.exec.ResultController;
-import com.natint.exec.StatusController;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -33,15 +31,9 @@ public class TaskExecutor {
     ExecutorService executor;
 
     @Autowired
-    StatusController statusController;
+    ObjectFactory<UiTask> uiTaskObjectFactory;
     @Autowired
-    ResultController resultController;
-    @Autowired
-    private ObjectFactory<ApiTask> apiTaskObjectFactory;
-    @Autowired
-    private ObjectFactory<UiTask> uiTaskObjectFactory;
-    @Autowired
-    private ObjectFactory<EmailTask> emailTaskObjectFactory;
+    ObjectFactory<ApiTask> apiTaskObjectFactory;
     int post;
     static int startIndex = 1;
     Task task;
@@ -95,24 +87,6 @@ public class TaskExecutor {
             taskList.add(task);
         }
         return taskList;
-    }
-
-    public Task initUiTask(Map<String, String> params) {
-        Task task = uiTaskObjectFactory.getObject();
-        task.init(params);
-        return task;
-    }
-
-    public Task initApiTask(Map<String, String> params) {
-        Task task = apiTaskObjectFactory.getObject();
-        task.init(params);
-        return task;
-    }
-
-    public Task initEmailTask(Map<String, String> params) {
-        Task task = emailTaskObjectFactory.getObject();
-        task.init(params);
-        return task;
     }
 
     public void shutdown() throws InterruptedException {

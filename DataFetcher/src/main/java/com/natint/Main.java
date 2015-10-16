@@ -3,10 +3,7 @@ package com.natint;
 import com.google.gson.Gson;
 import com.natint.configuration.Configs;
 import com.natint.input.Parameters;
-import com.natint.service.ApiService;
-import com.natint.service.EmailService;
-import com.natint.service.Service;
-import com.natint.service.UIService;
+import com.natint.task.Task;
 import com.natint.task.TaskExecutor;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +22,10 @@ import java.util.concurrent.ExecutionException;
 public class Main {
 
     @Autowired
-    private ApiService apiService;
-
-    @Autowired
     TaskExecutor taskExecutor;
 
     @Autowired
-    private UIService uiService;
-
-    @Autowired
-    private EmailService emailService;
+    Task task;
 
     private static Logger logger = Logger.getLogger(Main.class);
 
@@ -62,21 +53,8 @@ public class Main {
     private void startProcessing() throws ExecutionException, InterruptedException {
         String inputParameters = System.getProperty("parameters");
         Parameters parameters = new Gson().fromJson(inputParameters, Parameters.class);
-        Service service = getService(parameters.getType());
-        String taskId = service.getTask(parameters.getParams());
+        task.init(parameters.getParams());
+        int taskId = taskExecutor.execute(task);
         logger.info("New task with id " + taskId + " was generated for parameters : " + parameters.toString());
-    }
-
-    private Service getService(String type) {
-        switch (type) {
-            case "ui":
-                return uiService;
-            case "email":
-                return emailService;
-            case "api":
-                return apiService;
-            default:
-                throw new IllegalArgumentException("There is no service to process type " + type + ". Please use one of the following : ui, email, api");
-        }
     }
 }

@@ -4,14 +4,12 @@ import com.natint.email.Email;
 import com.natint.email.Gmail4j;
 import com.natint.email.JavaxMail;
 import com.natint.exec.Status;
-import org.springframework.context.annotation.Scope;
 
 import java.util.Map;
 
 /**
  * Created by skn on 12/10/2015.
  */
-@Scope("prototype")
 public class EmailTask extends Task{
 
     public EmailTask() {
@@ -20,8 +18,8 @@ public class EmailTask extends Task{
 
     @Override
     public void init(Map<String, String> params) {
+        taskStatus.setStatus(getId(), Status.INITIALIZED);
         this.params = params;
-        statusController.setStatus(getId(), Status.INITIALIZED);
         this.endpoint = getInstance(params.get("name"));
     }
 

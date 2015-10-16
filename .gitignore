@@ -1,3 +1,7 @@
 .idea/*
 target/*
 *.iml
+DataFetcher/target/*
+DataFetcher/*.iml
+Common/target/*
+Common/*.iml

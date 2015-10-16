@@ -1,17 +1,13 @@
 package com.natint.configuration;
 
+import com.google.gson.Gson;
 import com.natint.Main;
-import com.natint.data.IData;
-import com.natint.exec.ResultController;
+import com.natint.data.Data;
+import com.natint.exec.TaskResult;
 import com.natint.exec.Status;
-import com.natint.exec.StatusController;
-import com.natint.service.ApiService;
-import com.natint.service.EmailService;
-import com.natint.service.UIService;
-import com.natint.task.ApiTask;
-import com.natint.task.EmailTask;
-import com.natint.task.TaskExecutor;
-import com.natint.task.UiTask;
+import com.natint.exec.TaskStatus;
+import com.natint.input.Parameters;
+import com.natint.task.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -43,13 +39,13 @@ public class Configs {
     }
 
     @Bean
-    public ResultController resultController () {
-        return new ResultController(new HashMap<Integer, List<IData>>());
+    public TaskResult taskResult () {
+        return new TaskResult(new HashMap<Integer, List<Data>>());
     }
 
     @Bean
-    public StatusController statusController () {
-        return new StatusController(new HashMap<Integer, Status>());
+    public TaskStatus taskStatus () {
+        return new TaskStatus(new HashMap<Integer, Status>());
     }
 
     @Bean (destroyMethod = "shutdown")
@@ -58,38 +54,15 @@ public class Configs {
     }
 
     @Bean
-    public ApiService apiService(){
-        return new ApiService();
-    }
-
-    @Bean
-    public UIService uiService(){
-        return new UIService();
-    }
-
-    @Bean
     public Main main(){
         return new Main();
     }
 
     @Bean
-    public EmailService emailService(){
-        return new EmailService();
-    }
-
-    @Bean
-    public UiTask uiTask(){
-        return new UiTask();
-    }
-
-    @Bean
-    public ApiTask apiTask(){
-        return new ApiTask();
-    }
-
-    @Bean
-    public EmailTask emailTask(){
-        return new EmailTask();
+    public Task task(){
+        String inputParameters = System.getProperty("parameters");
+        Parameters parameters = new Gson().fromJson(inputParameters, Parameters.class);
+        return (new TaskFactory()).getInstance(parameters.getType());
     }
 
 }

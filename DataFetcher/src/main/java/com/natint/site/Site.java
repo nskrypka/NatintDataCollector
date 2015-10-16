@@ -1,6 +1,6 @@
 package com.natint.site;
 
-import com.natint.data.IData;
+import com.natint.data.Data;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
@@ -40,11 +40,11 @@ public abstract class Site extends Endpoint{
         return this;
     }
 
-    public List<IData> collectData() {
+    public List<Data> collectData() {
         prepare();
         open();
         doSearch(searchCriteria);
-        List<IData> results = getResults(resultsAmount);
+        List<Data> results = getResults(resultsAmount);
         System.out.println("Result of ui task execution : " + results);
         finish();
         return results;
@@ -54,7 +54,7 @@ public abstract class Site extends Endpoint{
         driver.quit();
     }
 
-    protected abstract List<IData> getResults(int resultsAmount);
+    protected abstract List<Data> getResults(int resultsAmount);
 
     protected abstract void doSearch(String searchCriteria);
 

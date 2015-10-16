@@ -5,7 +5,7 @@ import com.googlecode.gmail4j.GmailConnection;
 import com.googlecode.gmail4j.GmailMessage;
 import com.googlecode.gmail4j.http.HttpGmailConnection;
 import com.googlecode.gmail4j.rss.RssGmailClient;
-import com.natint.data.IData;
+import com.natint.data.Data;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class Gmail4j extends Email {
     }
 
     @Override
-    public List<IData> collectData() {
+    public List<Data> collectData() {
         List<GmailMessage> messages = client.getUnreadMessages();
         for (GmailMessage message : messages) {
             System.out.println(message.getPreview());
