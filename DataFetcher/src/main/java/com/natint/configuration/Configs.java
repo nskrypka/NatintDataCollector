@@ -2,12 +2,17 @@ package com.natint.configuration;
 
 import com.google.gson.Gson;
 import com.natint.Main;
+import com.natint.api.ApiFactory;
 import com.natint.data.Data;
-import com.natint.exec.TaskResult;
+import com.natint.email.EmailFactory;
 import com.natint.exec.Status;
+import com.natint.exec.TaskResult;
 import com.natint.exec.TaskStatus;
 import com.natint.input.Parameters;
-import com.natint.task.*;
+import com.natint.site.SiteFactory;
+import com.natint.task.Task;
+import com.natint.task.TaskExecutor;
+import com.natint.task.TaskFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,6 +35,30 @@ public class Configs {
 
     @Value("${pool.size}")
     private String poolSize;
+
+    @Value("${NATINT_EBAY_LINK}")
+    private String ebayLink;
+
+    @Value("${NATINT_AMAZON_LINK}")
+    private String amazonLink;
+
+    @Value("${NATINT_EMAIL_LOGIN}")
+    private String gmailLogin;
+
+    @Value("${NATINT_EMAIL_PASSWORD}")
+    private String gmailPassword;
+
+    @Value("${NATINT_EMAIL_PROTOCOL}")
+    private String emailProtocol;
+
+    @Value("${NATINT_EMAIL_META_UA}")
+    private String metaLogin;
+
+    @Value("${NATINT_PASSWORD_META_UA}")
+    private String metaPassword;
+
+    @Value("${NATINT_GET_COMMENTS_LINK}")
+    private String getCommentsLink;
 
     private Logger logger = Logger.getLogger(this.getClass());
 
@@ -60,9 +89,28 @@ public class Configs {
 
     @Bean
     public Task task(){
-        String inputParameters = System.getProperty("parameters");
-        Parameters parameters = new Gson().fromJson(inputParameters, Parameters.class);
+        Parameters parameters = getParameters();
         return (new TaskFactory()).getInstance(parameters.getType());
+    }
+
+    private Parameters getParameters() {
+        String inputParameters = System.getProperty("parameters");
+        return new Gson().fromJson(inputParameters, Parameters.class);
+    }
+
+    @Bean
+    public SiteFactory siteFactory(){
+        return new SiteFactory(ebayLink, amazonLink);
+    }
+
+    @Bean
+    public EmailFactory emailFactory(){
+        return new EmailFactory(gmailLogin, gmailPassword, emailProtocol, metaLogin, metaPassword);
+    }
+
+    @Bean
+    public ApiFactory apiFactory(){
+        return new ApiFactory(getCommentsLink);
     }
 
 }

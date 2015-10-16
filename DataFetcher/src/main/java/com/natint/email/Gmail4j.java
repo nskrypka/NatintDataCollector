@@ -8,20 +8,19 @@ import com.googlecode.gmail4j.rss.RssGmailClient;
 import com.natint.data.Data;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by skn on 12/10/2015.
  */
 public class Gmail4j extends Email {
 
-    private String emailLogin = System.getProperty("NATINT_EMAIL_LOGIN");
-    private String emailPassword = System.getProperty("NATINT_EMAIL_PASSWORD");
+    private String emailLogin;
+    private String emailPassword;
     private GmailClient client;
-    private Map<String, String> params;
 
-    public Gmail4j(Map<String, String> params) {
-        this.params = params;
+    public Gmail4j(String gmailEmail, String gmailPassword) {
+        this.emailLogin = gmailEmail;
+        this.emailPassword = gmailPassword;
         client = new RssGmailClient();
         GmailConnection connection = new HttpGmailConnection(emailLogin, emailPassword.toCharArray());
         client.setConnection(connection);

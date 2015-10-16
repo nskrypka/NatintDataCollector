@@ -13,9 +13,15 @@ import java.util.Properties;
  */
 public class JavaxMail extends Email {
 
-    private static final String EMAIL_PROTOCOL = System.getProperty("NATINT_EMAIL_PROTOCOL");
-    private static final String EMAIL_LOGIN = System.getProperty("NATINT_EMAIL_META_UA");
-    private static final String EMAIL_PASSWORD = System.getProperty("NATINT_PASSWORD_META_UA");
+    private String emailProtocol;
+    private String metaEmail;
+    private String metaPassword;
+
+    public JavaxMail(String emailProtocol, String metaEmail, String metaPassword) {
+        this.emailProtocol = emailProtocol;
+        this.metaEmail = metaEmail;
+        this.metaPassword = metaPassword;
+    }
 
     @Override
     public List<Data> collectData() {
@@ -46,7 +52,7 @@ public class JavaxMail extends Email {
         Session session = Session.getDefaultInstance(properties);
 
         Store store = session.getStore();
-        store.connect(EMAIL_PROTOCOL, EMAIL_LOGIN, EMAIL_PASSWORD);
+        store.connect(emailProtocol, metaEmail, metaPassword);
 
         Folder folder = store.getFolder("INBOX");
         folder.open(Folder.READ_ONLY);

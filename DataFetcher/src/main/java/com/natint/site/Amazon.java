@@ -14,14 +14,17 @@ import java.util.List;
 public class Amazon extends Site {
 
     private Logger logger = Logger.getLogger(this.getClass());
-
-    private static final String AMAZON_LINK = System.getProperty("NATINT_AMAZON_LINK");
+    private String amazonLink;
 
     private static final String SEARCH_INPUT = "//input[@id='twotabsearchtextbox']";
     private static final String SEARCH_BUTTON = "//input[@value='Go']";
     private static final String PRODUCT_LINK_TEMPLATE = "//li[starts-with(@id,'result_')]//a[contains(@class,'s-access-detail-page')]";
     private static final String PRODUCT_PRICE_TEMPLATE = "//div[@class='a-row']//div[contains(@class,'a-span7')]/div[1]//a[1]/span[1]";
     private static final String NEXT_PAGE_LINK = "//a[@id='pagnNextLink']";
+
+    public Amazon(String amazonLink){
+        this.amazonLink = amazonLink;
+    }
 
     @Override
     protected List<Data> getResults(int resultsAmount) {
@@ -69,7 +72,7 @@ public class Amazon extends Site {
     @Override
     protected void open() {
         logger.info("Method open() started...");
-        getDriver().get(AMAZON_LINK);
+        getDriver().get(amazonLink);
         logger.info("Amazon site is opened");
     }
 }

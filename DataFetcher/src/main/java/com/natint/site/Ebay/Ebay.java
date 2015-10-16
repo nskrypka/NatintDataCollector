@@ -16,10 +16,13 @@ import java.util.List;
  */
 public class Ebay extends Site {
 
-    public static final String EBAY_COM = System.getProperty("NATINT_EBAY_LINK");
-
+    private String ebayLink;
     @FindBy(css = "table[class='gh-tbl']")
     private SearchBlock searchBlock;
+
+    public Ebay(String ebayLink){
+        this.ebayLink = ebayLink;
+    }
 
     @Override
     protected List<Data> getResults(int resultsAmount)
@@ -46,6 +49,6 @@ public class Ebay extends Site {
     protected void open()
     {
         PageFactory.initElements(new HtmlElementDecorator(getDriver()), this);
-        getDriver().get(EBAY_COM);
+        getDriver().get(ebayLink);
     }
 }

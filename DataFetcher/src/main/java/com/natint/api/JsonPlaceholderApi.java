@@ -18,11 +18,12 @@ import static com.jayway.restassured.RestAssured.when;
 public class JsonPlaceholderApi extends Api {
 
     Map<String, String> params;
-    private String commentsLink = System.getProperty("NATINT_GET_COMMENTS_LINK");
+    private String commentsLink;
     private Logger logger = Logger.getLogger(this.getClass());
 
-    public JsonPlaceholderApi(Map<String, String> params){
+    public JsonPlaceholderApi(String getCommentsLink, Map<String, String> params){
         this.params = params;
+        this.commentsLink = getCommentsLink;
     }
 
     @Override

@@ -12,7 +12,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -32,17 +31,10 @@ public class Main {
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(Configs.class);
         logger.info("In DataFetcher module Main.class");
-        loadProperties();
 
         Main main = ctx.getBean(Main.class);
         main.startProcessing();
         main.shutdown();
-    }
-
-    private static void loadProperties() throws IOException {
-        Properties properties = new Properties(System.getProperties());
-        properties.load(Main.class.getClassLoader().getResourceAsStream("application.properties"));
-        System.setProperties(properties);
     }
 
     private void shutdown() throws InterruptedException {

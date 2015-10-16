@@ -1,8 +1,8 @@
 package com.natint.task;
 
-import com.natint.api.Api;
-import com.natint.api.JsonPlaceholderApi;
+import com.natint.api.ApiFactory;
 import com.natint.exec.Status;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -11,23 +11,17 @@ import java.util.Map;
  */
 public class ApiTask extends Task {
 
+    @Autowired
+    ApiFactory apiFactory;
+
     public ApiTask() {
         super();
-    }
-
-    private Api getSite() {
-        switch (getParams().get("siteName").toUpperCase()){
-            case "JSONPLACEHOLDER" :
-                return new JsonPlaceholderApi(getParams());
-            default:
-                throw new IllegalArgumentException("Please provide correct site name. For example : JsonPlaceholder");
-        }
     }
 
     @Override
     public void init(Map<String, String> params) {
         taskStatus.setStatus(getId(), Status.INITIALIZED);
         this.params = params;
-        this.endpoint = getSite();
+        this.endpoint = apiFactory.getApi(params);
     }
 }
