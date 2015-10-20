@@ -2,6 +2,7 @@ package com.natint;
 
 import com.google.gson.Gson;
 import com.natint.configuration.Configs;
+import com.natint.configuration.JsonPlaceholderRoute;
 import com.natint.input.Parameters;
 import com.natint.task.Task;
 import com.natint.task.TaskExecutor;
@@ -11,7 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -28,11 +28,9 @@ public class Main {
 
     private static Logger logger = Logger.getLogger(Main.class);
 
-    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(Configs.class);
-        logger.info("In DataFetcher module Main.class");
-
-        Main main = ctx.getBean(Main.class);
+    public static void main(String[] args) throws Exception {
+        ApplicationContext ctxJava = new AnnotationConfigApplicationContext(Configs.class, JsonPlaceholderRoute.class);
+        Main main = ctxJava.getBean(Main.class);
         main.startProcessing();
         main.shutdown();
     }

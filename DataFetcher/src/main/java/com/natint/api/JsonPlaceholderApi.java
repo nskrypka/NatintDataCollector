@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import com.jayway.restassured.response.Response;
 import com.natint.data.ApiData;
 import com.natint.data.Data;
+import org.apache.camel.ProducerTemplate;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -21,9 +22,8 @@ public class JsonPlaceholderApi extends Api {
     private String commentsLink;
     private Logger logger = Logger.getLogger(this.getClass());
 
-    public JsonPlaceholderApi(String getCommentsLink, Map<String, String> params){
-        this.params = params;
-        this.commentsLink = getCommentsLink;
+    public JsonPlaceholderApi(String getCommentsLink, Map<String, String> params, ProducerTemplate producerTemplate) {
+        super(params, producerTemplate);
     }
 
     @Override

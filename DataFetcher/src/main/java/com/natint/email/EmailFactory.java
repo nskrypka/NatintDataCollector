@@ -10,15 +10,11 @@ public class EmailFactory {
     private String gmailLogin;
     private String gmailPassword;
     private String emailProtocol;
-    private String metaLogin;
-    private String metaPassword;
 
-    public EmailFactory(String gmailLogin, String gmailPassword, String emailProtocol, String metaLogin, String metaPassword) {
+    public EmailFactory(String gmailLogin, String gmailPassword, String emailProtocol) {
         this.gmailLogin = gmailLogin;
         this.gmailPassword = gmailPassword;
         this.emailProtocol = emailProtocol;
-        this.metaLogin = metaLogin;
-        this.metaPassword = metaPassword;
     }
 
     public Email getInstance(String name) {
@@ -26,7 +22,7 @@ public class EmailFactory {
             case "GMAIL4J":
                 return new Gmail4j(gmailLogin, gmailPassword);
             case "JAVAX":
-                return new JavaxMail(emailProtocol, metaLogin, metaPassword);
+                return new JavaxMail(emailProtocol, gmailLogin, gmailPassword);
             default:
                 throw new IllegalArgumentException("No matches found for email endpoint " + name);
         }

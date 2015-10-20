@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       ">
+
+    <camelContext id="myCamel" trace="false" xmlns="http://camel.apache.org/schema/spring">
+        <route id="my_Sample_Camel_Route_with_CXF">
+            <from uri="direct:getstockinfo" />
+            <setHeader headerName="CamelHttpMethod">
+                <constant>GET</constant>
+            </setHeader>
+            <setHeader headerName="CamelHttpQuery">
+                <constant>1</constant>
+            </setHeader>
+            <to uri="http://jsonplaceholder.typicode.com/posts/"/>
+            <to uri="stream:out"/>
+        </route>
+    </camelContext>
+</beans>

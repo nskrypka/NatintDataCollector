@@ -20,6 +20,7 @@ public class ApiTask extends Task {
 
     @Override
     public void init(Map<String, String> params) {
+        System.out.println("Api task initialization started....");
         taskStatus.setStatus(getId(), Status.INITIALIZED);
         this.params = params;
         this.endpoint = apiFactory.getApi(params);

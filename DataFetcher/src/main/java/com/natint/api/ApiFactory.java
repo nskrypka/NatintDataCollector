@@ -1,5 +1,6 @@
 package com.natint.api;
 
+import org.apache.camel.ProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,19 +12,15 @@ import java.util.Map;
 @Component
 public class ApiFactory {
 
-    private String getCommentsLink;
+    private final ProducerTemplate producerTemplate;
 
     @Autowired
-    public ApiFactory(String getCommentsLink) {
-        this.getCommentsLink = getCommentsLink;
+    public ApiFactory(ProducerTemplate producerTemplate) {
+
+        this.producerTemplate = producerTemplate;
     }
 
     public Api getApi(Map<String, String> params) {
-        switch (params.get("siteName").toUpperCase()){
-            case "JSONPLACEHOLDER" :
-                return new JsonPlaceholderApi(getCommentsLink, params);
-            default:
-                throw new IllegalArgumentException("Please provide correct site name. For example : JsonPlaceholder");
-        }
+        return new Api(params, producerTemplate);
     }
 }

@@ -13,7 +13,11 @@ import com.natint.site.SiteFactory;
 import com.natint.task.Task;
 import com.natint.task.TaskExecutor;
 import com.natint.task.TaskFactory;
+import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -57,8 +61,8 @@ public class Configs {
     @Value("${NATINT_PASSWORD_META_UA}")
     private String metaPassword;
 
-    @Value("${NATINT_GET_COMMENTS_LINK}")
-    private String getCommentsLink;
+    @Autowired
+    ProducerTemplate producerTemplate;
 
     private Logger logger = Logger.getLogger(this.getClass());
 
@@ -104,13 +108,26 @@ public class Configs {
     }
 
     @Bean
-    public EmailFactory emailFactory(){
-        return new EmailFactory(gmailLogin, gmailPassword, emailProtocol, metaLogin, metaPassword);
+    public EmailFactory emailFactory() {
+        return new EmailFactory(gmailLogin, gmailPassword, emailProtocol);
     }
 
     @Bean
-    public ApiFactory apiFactory(){
-        return new ApiFactory(getCommentsLink);
+    public ApiFactory apiFactory() {
+        return new ApiFactory(producerTemplate);
     }
 
+    @Bean
+    public ProducerTemplate producerTemplate() {
+        CamelContext camelContext = new DefaultCamelContext();
+        ProducerTemplate template = null;
+        try {
+            camelContext.addRoutes(new JsonPlaceholderRoute());
+            template = camelContext.createProducerTemplate();
+            camelContext.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return template;
+    }
 }
